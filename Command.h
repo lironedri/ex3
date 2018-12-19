@@ -1,7 +1,3 @@
-//
-// Created by liron on 12/19/18.
-//
-
 #ifndef EX3_COMMAND_H
 #define EX3_COMMAND_H
 #include <string>
@@ -10,8 +6,9 @@
 using namespace std;
 
 class Command {
+
 public:
-    virtual int execute(string s, vector<string>* data);
+    virtual int execute(vector<string> data, int index);
 };
 
 #endif //EX3_COMMAND_H

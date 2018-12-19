@@ -4,7 +4,7 @@
 
 class OpenServerCommand : public Command{
 public:
-    int execute(string s, vector<string>* data);
+    virtual int execute(vector<string> data, int index);
 };
 
 

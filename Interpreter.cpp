@@ -27,7 +27,6 @@ vector<string> Interpreter:: lexer (string fileName){
                 //split the word that contains "\n" into two words without "\n"
                 for(size_t i = 0; i < word.length(); i++){
                     if(word.at(i) == '\n'){
-                        int z = word.length();
                         word2 = word.substr(i + 1, word.length()-i-1);
                         word = word.substr(0, i-1);
                         lineData.push_back(word);
@@ -63,8 +62,18 @@ bool Interpreter::stringEndsWith(const string &str, const string &toMatch)
  * @param commandStr
  * @return
  */
-Command Interpreter:: parser(vector<string> data){
-
+void Interpreter:: parser(vector<string> dataVec){
+    int index = 0;
+    while(index <= dataVec.size()){
+        //if the word is a command that exist in the map
+        if(commandsMap.count(dataVec[index]) != 0){
+        Command c = commandsMap[dataVec[index]];
+        index += c.execute(dataVec, index);
+        } else{
+            throw "unknown command!";
+        }
+        // todo - catch the exception
+    }
 }
 
 

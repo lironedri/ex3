@@ -7,6 +7,6 @@
  * @param data
  * @return
  */
-int OpenServerCommand ::execute(string s, vector<string>* data) {
+int OpenServerCommand::execute(vector<string> data, int index) {
 
 }
