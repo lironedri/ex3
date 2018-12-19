@@ -1,6 +1,3 @@
-//
-// Created by liron and Dekel on 12/16/18.
-//
 #include <iostream>
 #include <vector>
 #ifndef EX3_LEXER_H
@@ -9,7 +6,8 @@ using namespace std;
 
 class Lexer {
 public:
-    virtual vector<string> doLexer(string fileName);
+    vector<string> doLexer(string fileName);
+    bool stringEndsWith(const string &str, const string &toMatch);
 };
 
 
