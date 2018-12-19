@@ -3,11 +3,13 @@
 #ifndef EX3_LEXER_H
 #define EX3_LEXER_H
 using namespace std;
+#include "Command.h"
 
-class Lexer {
+class Interpreter {
 public:
-    vector<string> doLexer(string fileName);
+    vector<string> lexer(string fileName);
     bool stringEndsWith(const string &str, const string &toMatch);
+    Command parser(string commandStr);
 };
 
 

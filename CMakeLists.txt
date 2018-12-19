@@ -3,4 +3,4 @@ project(ex3)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(ex3 main.cpp Lexer.cpp Lexer.h Expression.cpp Expression.h BinaryExpression.cpp BinaryExpression.h)
+add_executable(ex3 main.cpp Interpreter.cpp Interpreter.h Expression.cpp Expression.h BinaryExpression.cpp BinaryExpression.h Command.h OpenServerCommand.cpp OpenServerCommand.h)

@@ -1,10 +1,5 @@
-//
-// Created by Liron and  Dekel on 12/18/18.
-//
-
 #ifndef EX3_EXPRESSIONINTERFACE_H
 #define EX3_EXPRESSIONINTERFACE_H
-
 using namespace std;
 
 class Expression {
