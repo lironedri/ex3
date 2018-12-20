@@ -12,8 +12,8 @@
 //#endif //EX3_EXPRESSION_H
 
 
-#ifndef EX3_EXPRESSIONINTERFACE_H
-#define EX3_EXPRESSIONINTERFACE_H
+#ifndef EX3_EXPRESSION_H
+#define EX3_EXPRESSION_H
 using namespace std;
 
 class Expression {
@@ -111,4 +111,4 @@ public:
 
 };
 
-#endif //EX3_EXPRESSIONINTERFACE_H
+#endif //EX3_EXPRESSION_H

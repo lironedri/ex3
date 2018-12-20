@@ -1,6 +1,14 @@
 #include "ShuntingYard.h"
 #include <bits/stdc++.h>
+
+#define SPACE 32
+
 using namespace std;
+
+
+ShuntingYard::ShuntingYard() {
+
+}
 
 /**
  * Function to find precedence of operators.
@@ -22,12 +30,14 @@ int ShuntingYard:: precedence(char op){
  * @param op - char operator
  * @return
  */
-int ShuntingYard:: applyOp(int a, int b, char op){
+Expression* ShuntingYard:: applyOp(Expression* a, Expression* b, char op){
     switch(op){
-        case '+': return a + b;
-        case '-': return a - b;
-        case '*': return a * b;
-        case '/': return a / b;
+        case '+': return new Plus(a,b);
+        case '-': return new Minus(a,b);
+        case '*': return new Mul(a,b);
+        case '/':
+        default:
+            return new Div(a,b);
     }
 }
 
@@ -37,56 +47,63 @@ int ShuntingYard:: applyOp(int a, int b, char op){
  * @param tokens - the give string
  * @return
  */
- //TODO: change the return value from int to double.
-int ShuntingYard:: evaluate(string tokens){
-    int i;
-
-    // stack to store integer values.
-    stack <int> values;
+Expression* ShuntingYard:: evaluate(string tokens){
+    // stack to store double values.
+    stack <Expression*> values;
 
     // stack to store operators.
     stack <char> ops;
 
-    for(i = 0; i < tokens.length(); i++){
+    for(size_t i = 0; i < tokens.length(); i++){
 
-        // Current token is a whitespace,
-        // skip it.
-        if(tokens[i] == ' ')
+        // Current token is a whitespace, skip it.
+        if(tokens.at(i) == SPACE) {
             continue;
+        }
 
-            // Current token is an opening
-            // brace, push it to 'ops'
+            // Current token is an opening brace, push it to 'ops'
         else if(tokens[i] == '('){
             ops.push(tokens[i]);
         }
 
-            // Current token is a number, push
-            // it to stack for numbers.
+            // Current token is a number, push it to stack for numbers.
         else if(isdigit(tokens[i])){
-            int val = 0;
+            double val = 0;
+            double tempDouble = 0;
 
-            // There may be more than one
-            // digits in number.
-            while(i < tokens.length() &&
-                  isdigit(tokens[i]))
+
+            // There may be more than one digits in number.
+            while(i < tokens.length() && isdigit(tokens[i]))
             {
-                val = (val*10) + (tokens[i]-'0');
+                val*=10;
+                val+= (tokens.at(i) - '0');
                 i++;
             }
+            if(tokens[i]=='.'){
+                size_t  counter = 0;
+                i++;
+                while (i < tokens.length() && isdigit(tokens[i])){
+                    tempDouble+=(tokens.at(i) - '0');
+                    counter++;
+                    i++;
+                }
+                tempDouble/=(pow(10,counter));
+                val += tempDouble;
+            }
+            i--;
 
-            values.push(val);
+            values.push(new Number(val));
         }
 
-            // Closing brace encountered, solve
-            // entire brace.
+            // Closing brace encountered, solve entire brace.
         else if(tokens[i] == ')')
         {
             while(!ops.empty() && ops.top() != '(')
             {
-                int val2 = values.top();
+                Expression* val2 = values.top();
                 values.pop();
 
-                int val1 = values.top();
+                Expression* val1 = values.top();
                 values.pop();
 
                 char op = ops.top();
@@ -108,10 +125,10 @@ int ShuntingYard:: evaluate(string tokens){
             // of 'ops' to top two elements in values stack.
             while(!ops.empty() && precedence(ops.top())
                                   >= precedence(tokens[i])){
-                int val2 = values.top();
+                Expression* val2 = values.top();
                 values.pop();
 
-                int val1 = values.top();
+                Expression* val1 = values.top();
                 values.pop();
 
                 char op = ops.top();
@@ -129,10 +146,10 @@ int ShuntingYard:: evaluate(string tokens){
     // point, apply remaining ops to remaining
     // values.
     while(!ops.empty()){
-        int val2 = values.top();
+        Expression* val2 = values.top();
         values.pop();
 
-        int val1 = values.top();
+        Expression* val1 = values.top();
         values.pop();
 
         char op = ops.top();
@@ -144,3 +161,4 @@ int ShuntingYard:: evaluate(string tokens){
     // Top of 'values' contains result, return it.
     return values.top();
 }
+
