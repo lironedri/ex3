@@ -1,3 +1,17 @@
+//#ifndef EX3_EXPRESSION_H
+//#define EX3_EXPRESSION_H
+//using namespace std;
+//
+//class Expression {
+//public:
+//    virtual double calculate() = 0;
+//    virtual ~Expression() {}
+//};
+//
+//
+//#endif //EX3_EXPRESSION_H
+
+
 #ifndef EX3_EXPRESSIONINTERFACE_H
 #define EX3_EXPRESSIONINTERFACE_H
 using namespace std;
@@ -98,5 +112,3 @@ public:
 };
 
 #endif //EX3_EXPRESSIONINTERFACE_H
-
-

@@ -1,5 +1,6 @@
 #include "OpenServerCommand.h"
 #include "Expression.h"
+#include "Plus.h"
 
 /**
  * the function gets a string - the command, and a string vector data - the script from Lexer - and while the next
@@ -9,6 +10,6 @@
  * @return
  */
 int OpenServerCommand::execute(vector<string> data, int index) {
-        Expression port = new Expression;
-        port = data[index + 1];
+    Expression* port;
+//    port = data[index + 1];
 }
