@@ -10,6 +10,7 @@
  * @return
  */
 int OpenServerCommand::execute(vector<string> data, int index) {
-    Expression* port;
-//    port = data[index + 1];
+    ShuntingYard* portExp = new ShuntingYard();
+    Expression* port = portExp->evaluate(data[index + 1]);
+
 }

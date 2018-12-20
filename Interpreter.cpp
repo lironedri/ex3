@@ -3,6 +3,14 @@
 #include <string.h>
 #include <stdio.h>
 #include <algorithm>
+#include "Expression.h"
+#include "CommandExpression.h"
+#include "ConnectCommand.h"
+#include "PrintCommand.h"
+#include "OpenServerCommand.h"
+#include "SleepCommand.h"
+#include "VarCommand.h"
+#include "ConditionParser.h"
 
 /**
  * the function gets script file and split the words into string vector.
@@ -57,6 +65,18 @@ bool Interpreter::stringEndsWith(const string &str, const string &toMatch)
         return false;
 }
 
+map<string, Expression*> Interpreter::createCommandsMap(vector<string> dataVec, int index){
+    map<string, Expression*> commandsMap;
+    //todo define
+    commandsMap["openDataServer"] = new CommandExpression(new OpenServerCommand(), dataVec, index);
+    commandsMap["connect"] = new CommandExpression(new ConnectCommand(), dataVec, index);
+    commandsMap["var"] = new CommandExpression(new VarCommand(), dataVec, index);
+    commandsMap["while"] = new CommandExpression(new ConditionParser(), dataVec, index);
+    commandsMap["if"] = new CommandExpression(new ConditionParser(), dataVec, index);
+    commandsMap["print"] = new CommandExpression(new PrintCommand(), dataVec, index);
+    commandsMap["sleep"] = new CommandExpression(new SleepCommand(), dataVec, index);
+}
+
 /**
  * the function get
  * @param commandStr
@@ -64,11 +84,12 @@ bool Interpreter::stringEndsWith(const string &str, const string &toMatch)
  */
 void Interpreter:: parser(vector<string> dataVec){
     int index = 0;
+    map<string, Expression*> commandsMap = createCommandsMap(dataVec, index);
     while(index <= dataVec.size()){
         //if the word is a command that exist in the map
         if(commandsMap.count(dataVec[index]) != 0){
-        Command c = commandsMap[dataVec[index]];
-        index += c.execute(dataVec, index);
+        Expression* commandExp = commandsMap[dataVec[index]];
+        index += (int)commandExp->calculate();
         } else{
             throw "unknown command!";
         }

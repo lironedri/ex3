@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "Expression.h"
+#include "ShuntingYard.h"
 
 using namespace std;
 
