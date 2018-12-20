@@ -1,6 +1,5 @@
 #include "OpenServerCommand.h"
 #include "Expression.h"
-#include "Plus.h"
 
 /**
  * the function gets a string - the command, and a string vector data - the script from Lexer - and while the next
