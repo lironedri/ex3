@@ -7,6 +7,7 @@ int PrintCommand::execute(vector<string> data, int index){
         // in case we need to print var
     } else{
         ShuntingYard* varExp = new ShuntingYard();
+        //todo search in the symbolTable and then send it
         cout << varExp->evaluate(data[index + 1])->calculate() << endl;
     }
     return index + 2;
