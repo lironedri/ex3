@@ -10,7 +10,6 @@
 #include "OpenServerCommand.h"
 #include "SleepCommand.h"
 #include "VarCommand.h"
-#include "ConditionParser.h"
 
 /**
  * the function gets script file and split the words into string vector.
@@ -71,10 +70,12 @@ map<string, Expression*> Interpreter::createCommandsMap(vector<string> dataVec, 
     commandsMap["openDataServer"] = new CommandExpression(new OpenServerCommand(), dataVec, index);
     commandsMap["connect"] = new CommandExpression(new ConnectCommand(), dataVec, index);
     commandsMap["var"] = new CommandExpression(new VarCommand(), dataVec, index);
-    commandsMap["while"] = new CommandExpression(new ConditionParser(), dataVec, index);
-    commandsMap["if"] = new CommandExpression(new ConditionParser(), dataVec, index);
+//    commandsMap["while"] = new CommandExpression(new ConditionParser(), dataVec, index);
+//    commandsMap["if"] = new CommandExpression(new ConditionParser(), dataVec, index);
     commandsMap["print"] = new CommandExpression(new PrintCommand(), dataVec, index);
     commandsMap["sleep"] = new CommandExpression(new SleepCommand(), dataVec, index);
+
+    return commandsMap;
 }
 
 /**
@@ -88,15 +89,14 @@ void Interpreter:: parser(vector<string> dataVec){
     while(index <= dataVec.size()){
         //if the word is a command that exist in the map
         if(commandsMap.count(dataVec[index]) != 0){
-        Expression* commandExp = commandsMap[dataVec[index]];
-        index += (int)commandExp->calculate();
+            Expression* commandExp = commandsMap[dataVec[index]];
+            index += (int)commandExp->calculate();
         } else{
             throw "unknown command!";
         }
         // todo - catch the exception
     }
 }
-
 
 
 

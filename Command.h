@@ -3,15 +3,13 @@
 
 #include <string>
 #include <vector>
-#include "Expression.h"
-#include "ShuntingYard.h"
 
 using namespace std;
 
 class Command {
 
 public:
-    virtual int execute(vector<string> data, int index);
+    virtual int execute(vector<string> data, int index) = 0;
 };
 
 #endif //EX3_COMMAND_H

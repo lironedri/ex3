@@ -1,4 +1,6 @@
+#include <iostream>
 #include "PrintCommand.h"
+#include "ShuntingYard.h"
 
 int PrintCommand::execute(vector<string> data, int index){
     // in case we need to print string, the char " will be in the string

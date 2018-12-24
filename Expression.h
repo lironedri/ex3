@@ -1,6 +1,5 @@
 #ifndef EX3_EXPRESSION_H
 #define EX3_EXPRESSION_H
-using namespace std;
 
 class Expression {
 public:
