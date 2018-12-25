@@ -14,7 +14,9 @@ public:
     bool stringEndsWith(const string &str, const string &toMatch);
     void parser(vector<string> data);
     map<string, Expression*> createCommandsMap(vector<string> dataVec, int index);
-};
+    bool stringStartsWith(const string haystack, const string& needle);
+
+    };
 
 
 #endif //EX3_LEXER_H
