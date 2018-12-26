@@ -12,6 +12,7 @@
 #include "OpenServerCommand.h"
 #include "SleepCommand.h"
 #include "DefineVarCommand.h"
+#include "ConditionParser.h"
 
 using namespace std;
 
@@ -152,14 +153,13 @@ vector<string> Interpreter:: lexer (string fileName){
  * @param toMatch
  * @return
  */
-bool Interpreter::stringEndsWith(const string &str, const string &toMatch)
-{
+bool Interpreter::stringEndsWith(const string &str, const string &toMatch){
     return (str.size() >= toMatch.size() &&
         str.compare(str.size() - toMatch.size(), toMatch.size(), toMatch) == 0);
 
 }
 
-bool Interpreter::stringStartsWith(const string haystack, const string& needle) {
+bool Interpreter::stringStartsWith(const string haystack, const string& needle){
     return needle.length() <= haystack.length()
            && equal(needle.begin(), needle.end(), haystack.begin());
 }
