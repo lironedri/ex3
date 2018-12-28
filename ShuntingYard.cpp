@@ -2,9 +2,7 @@
 #include <bits/stdc++.h>
 
 #define SPACE 32
-
 using namespace std;
-
 
 ShuntingYard::ShuntingYard() {
 
@@ -161,4 +159,3 @@ Expression* ShuntingYard:: evaluate(string tokens){
     // Top of 'values' contains result, return it.
     return values.top();
 }
-

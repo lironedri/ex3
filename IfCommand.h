@@ -1,7 +1,10 @@
 #ifndef EX3_IFCOMMAND_H
 #define EX3_IFCOMMAND_H
 
-class IfCommand {
+#include "ConditionParser.h"
+
+class IfCommand : public ConditionParser{
+     int execute(vector<string> data, int index) = 0;
 
 };
 

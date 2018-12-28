@@ -3,15 +3,20 @@
 
 #include <string>
 #include <vector>
-#include "Expression.h"
-#include "ShuntingYard.h"
+#include "SymbolTable.h"
 
 using namespace std;
 
 class Command {
+protected:
+    SymbolTable m_dataBase;
 
 public:
-    virtual int execute(vector<string> data, int index);
+    Command(){
+
+    }
+
+    virtual int execute(vector<string> data, int index) = 0;
 };
 
 #endif //EX3_COMMAND_H

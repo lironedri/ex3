@@ -1,4 +1,5 @@
 #include "ConnectCommand.h"
+#include "ShuntingYard.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <netdb.h>
@@ -83,4 +84,3 @@ int ConnectCommand::execute(vector<string> data, int index){
     //returns the number of index to move
     return 3;
 }
-

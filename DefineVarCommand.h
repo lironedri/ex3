@@ -3,7 +3,7 @@
 
 #include "Command.h"
 
-class VarCommand : public Command {
+class DefineVarCommand : public Command {
 
 public:
     virtual int execute(vector<string> data, int index);

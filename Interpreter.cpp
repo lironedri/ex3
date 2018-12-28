@@ -1,12 +1,27 @@
 #include "Interpreter.h"
+#include <fstream>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <list>
+#include <regex>
+#include "Expression.h"
+#include "CommandExpression.h"
+#include "ConnectCommand.h"
+#include "PrintCommand.h"
+#include "OpenServerCommand.h"
+#include "SleepCommand.h"
+#include "DefineVarCommand.h"
+#include "ConditionParser.h"
 
+using namespace std;
 
 /**
  * the function gets script file and split the words into string vector.
  * @param fileName
  * @return
  */
-vector<string> Interpreter::lexer(string fileName) {
+vector<string> Interpreter:: lexer (string fileName){
 //    string word = "";
 //    vector<string> lineData;
 //    ifstream myFile(fileName);
@@ -36,11 +51,8 @@ vector<string> Interpreter::lexer(string fileName) {
 //        }
 //        myFile.close();
 //    }
-    //return lineData;
-
-
-
-    list<string> oper = {"=", "+", "*", ",", "(", ")", "-", "/", "<", ">", "&", "|", "!", "}", "{"};
+//    return lineData;
+    list<string> oper = {"(", ")", "=", "+", "*", ",", "-", "/", "<", ">", "&", "|", "!","}","{"};
     list<string> output;
     list<string> output2;
     list<string> output3;
@@ -64,14 +76,14 @@ vector<string> Interpreter::lexer(string fileName) {
             for (list<string>::iterator op = oper.begin(); op != oper.end(); ++op) {
                 for (list<string>::iterator it = output.begin(); it != output.end(); ++it) {
 
-                    if (!(regex_match((it), regex("^.[" + (op) + "].$"))) ||
-                        (regex_match((it), regex("^\".\"$")))) {
+                    if (!(regex_match((*it), regex("^.[" + (*op) + "].$"))) ||
+                        (regex_match((*it), regex("^\".\"$")))) {
                         output2.push_back((*it));
                         continue;
                     }
                     string s2 = (*it);
                     while (regex_search(s2, m, regex("[" + (*op) + "]")) &&
-                           !(regex_match(s2, regex("^\".*\"$")))) {
+                    !(regex_match(s2, regex("^\".*\"$")))) {
 
                         if ((s2.substr(0, m.position(0))).compare("")) {
                             output2.push_back(s2.substr(0, m.position(0)));
@@ -87,14 +99,14 @@ vector<string> Interpreter::lexer(string fileName) {
                 ++op;
                 if (op != oper.end()) {
                     for (list<string>::iterator it = output2.begin(); it != output2.end(); ++it) {
-                        if (!(regex_match((it), regex("^.[" + (op) + "].$"))) ||
-                            (regex_match((it), regex("^\".\"$")))) {
+                        if (!(regex_match((*it), regex("^.[" + (*op) + "].$"))) ||
+                            (regex_match((*it), regex("^\".\"$")))) {
                             output.push_back((*it));
                             continue;
                         }
                         string s2 = (*it);
                         while (regex_search(s2, m, regex("[" + (*op) + "]")) &&
-                               !(regex_match(s2, regex("^\".*\"$")))) {
+                        !(regex_match(s2, regex("^\".*\"$")))) {
 
                             if ((s2.substr(0, m.position(0))).compare("")) {
                                 output.push_back(s2.substr(0, m.position(0)));
@@ -141,24 +153,29 @@ vector<string> Interpreter::lexer(string fileName) {
  * @param toMatch
  * @return
  */
-bool Interpreter::stringEndsWith(const string &str, const string &toMatch) {
-    if (str.size() >= toMatch.size() &&
-        str.compare(str.size() - toMatch.size(), toMatch.size(), toMatch) == 0)
-        return true;
-    else
-        return false;
+bool Interpreter::stringEndsWith(const string &str, const string &toMatch){
+    return (str.size() >= toMatch.size() &&
+        str.compare(str.size() - toMatch.size(), toMatch.size(), toMatch) == 0);
+
 }
 
-map<string, Expression *> Interpreter::createCommandsMap(vector<string> dataVec, int index) {
-    map<string, Expression *> commandsMap;
+bool Interpreter::stringStartsWith(const string haystack, const string& needle){
+    return needle.length() <= haystack.length()
+           && equal(needle.begin(), needle.end(), haystack.begin());
+}
+
+map<string, Expression*> Interpreter::createCommandsMap(vector<string> dataVec, int index){
+    map<string, Expression*> commandsMap;
     //todo define
     commandsMap["openDataServer"] = new CommandExpression(new OpenServerCommand(), dataVec, index);
     commandsMap["connect"] = new CommandExpression(new ConnectCommand(), dataVec, index);
-    commandsMap["var"] = new CommandExpression(new VarCommand(), dataVec, index);
-    commandsMap["while"] = new CommandExpression(new ConditionParser(), dataVec, index);
-    commandsMap["if"] = new CommandExpression(new ConditionParser(), dataVec, index);
+    commandsMap["var"] = new CommandExpression(new DefineVarCommand(), dataVec, index);
+//    commandsMap["while"] = new CommandExpression(new ConditionParser(), dataVec, index);
+//    commandsMap["if"] = new CommandExpression(new ConditionParser(), dataVec, index);
     commandsMap["print"] = new CommandExpression(new PrintCommand(), dataVec, index);
     commandsMap["sleep"] = new CommandExpression(new SleepCommand(), dataVec, index);
+
+    return commandsMap;
 }
 
 /**
@@ -166,25 +183,21 @@ map<string, Expression *> Interpreter::createCommandsMap(vector<string> dataVec,
  * @param commandStr
  * @return
  */
-void Interpreter::parser(vector<string> dataVec) {
+void Interpreter:: parser(vector<string> dataVec){
     int index = 0;
-    map<string, Expression *> commandsMap = createCommandsMap(dataVec, index);
-    while (index <= dataVec.size()) {
+    map<string, Expression*> commandsMap = createCommandsMap(dataVec, index);
+    while(index <= dataVec.size()){
         //if the word is a command that exist in the map
-        if (commandsMap.count(dataVec[index]) != 0) {
-            Expression *commandExp = commandsMap[dataVec[index]];
-            index += (int) commandExp->calculate();
-        } else {
-            throw "unknown command!";
+        if(commandsMap.count(dataVec[index]) != 0){
+            Expression* commandExp = commandsMap[dataVec[index]];
+            index += (int)commandExp->calculate();
+            // in case the current string is a var name and not command
+        } else{
+            Expression* commandExp = commandsMap.find("var")->second;
+            index += (int)commandExp->calculate();
         }
-        // todo - catch the exception
     }
 }
-
-
-
-
-
 
 
 
