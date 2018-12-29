@@ -4,7 +4,9 @@
 #include "ConditionParser.h"
 
 class IfCommand : public ConditionParser{
-     int execute(vector<string> data, int index) = 0;
+
+public:
+     virtual int execute(vector<string> data, int index);
 
 };
 

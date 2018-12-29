@@ -5,6 +5,8 @@
 
 class LoopCommand : public ConditionParser{
 
+public:
+    virtual int execute(vector<string> data, int index);
 };
 
 

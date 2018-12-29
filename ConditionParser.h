@@ -1,18 +1,25 @@
 #ifndef EX3_CONDITIONPARSER_H
 #define EX3_CONDITIONPARSER_H
 
-#include <map>
 #include "Command.h"
+#include "Expression.h"
 
 class ConditionParser : public Command {
-    map<string, Command*> commandsMap;
-
+protected:
+    map<string, Expression*> commandsMap;
+    double m_leftOperand;
+    double m_rightOperand;
 public:
-    int execute(vector<string> data, int index) = 0;
-    virtual bool conditionSwitchCase(double leftOperand, double rightOperand, char op) = 0;
-    virtual bool conditionRetVal (double leftOperand, double rightOperand, string op) = 0;
+    ConditionParser(){
+        this->m_leftOperand = 0;
+        this->m_rightOperand = 0;
+    }
 
-
-    };
+    virtual int execute(vector<string> data, int index);
+    bool conditionSwitchCase(char op);
+    bool conditionRetVal(string op);
+    double calculateOperand(string operandExp);
+    void doAllCommandsInScope(vector<string> data, int index);
+};
 
 #endif //EX3_CONDITIONPARSER_H
