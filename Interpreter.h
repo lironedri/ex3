@@ -14,7 +14,7 @@ public:
     bool stringEndsWith(const string &str, const string &toMatch);
     void parser(vector<string> data);
     bool stringStartsWith(const string haystack, const string& needle);
-
+    vector<string> lineLexer(string s);
     };
 
 
