@@ -9,7 +9,7 @@ using namespace std;
 
 class Command {
 protected:
-    SymbolTable m_dataBase;
+    SymbolTable* m_dataBase;
 
 public:
     Command(){

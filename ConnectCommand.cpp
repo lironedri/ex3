@@ -21,7 +21,7 @@ int ConnectCommand::execute(vector<string> data, int index){
 //        exit(0);
 //    }
 
-    ShuntingYard* portExp = new ShuntingYard();
+    ShuntingYard* portExp = new ShuntingYard(this->m_dataBase);
     Expression* port = portExp->evaluate(data[index + 2]);
     portno = (int)port->calculate();
 

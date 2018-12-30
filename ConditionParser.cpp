@@ -37,8 +37,8 @@ int ConditionParser::execute(vector<string> data, int index) {
 
 double ConditionParser::calculateOperand(string operandExp) {
     //in case the operand is a known var from the map
-    if (this->m_dataBase.isVarValueExist(operandExp)) {
-        return (this->m_dataBase.getVarValue(operandExp));
+    if (this->m_dataBase->isVarValueExist(operandExp)) {
+        return (this->m_dataBase->getVarValue(operandExp));
         //in case the operand is a number (given as a string) and not a known var from the map
     } else {
         string::size_type sz;
