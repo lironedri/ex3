@@ -36,6 +36,7 @@ void StartClient() {
     string msg;
 
     Client client("127.0.0.1", 7542);
+    //dekel hayafa
     client.connectClient();
 
     client.clientWrite("Liron HaMalka");
