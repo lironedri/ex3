@@ -12,7 +12,7 @@ void StartClient();
 int main(int argc, const char *argv[]) {
    ShuntingYard* t =  new ShuntingYard();
 //
-//    cout << t->evaluate("10 + 2 * 6") << "\n";
+   //cout << t->evaluate("10.3 + 2* 6")->calculate() << "\n";
 //    cout << t->evaluate("100 * 2 + 12") << "\n";
 //    cout << t->evaluate("100 * ( 2 + 12 )") << "\n";
 //    cout << t->evaluate("100 * ( 2 + 12 ) / 14");
@@ -23,7 +23,7 @@ int main(int argc, const char *argv[]) {
 
 
   //  StartServer();
-  StartClient();
+ StartClient();
 
 }
 
@@ -32,7 +32,7 @@ void StartClient() {
     SocketWriteRead socketWriteRead;
     string msg;
 
-    Client client("127.0.0.1", 8942);
+    Client client("127.0.0.1", 7342);
     client.connectClient();
 
     client.clientWrite("Liron HaMalka");
@@ -46,7 +46,7 @@ void StartServer() {
     SocketWriteRead socketWriteRead;
     string msg;
 
-    Server server(8942);
+    Server server(7342);
     server.serverListen();
     clientSocket = server.serverAccept();
 
