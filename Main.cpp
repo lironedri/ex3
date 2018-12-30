@@ -25,8 +25,8 @@ int main(int argc, const char *argv[]) {
 
 
 
-    StartServer();
- //StartClient();
+ //   StartServer();
+ StartClient();
 
 }
 
@@ -35,7 +35,7 @@ void StartClient() {
     SocketWriteRead socketWriteRead;
     string msg;
 
-    Client client("127.0.0.1", 7342);
+    Client client("127.0.0.1", 7542);
     client.connectClient();
 
     client.clientWrite("Liron HaMalka");
@@ -49,7 +49,7 @@ void StartServer() {
     SocketWriteRead socketWriteRead;
     string msg;
 
-    Server server(7342);
+    Server server(7542);
     server.serverListen();
     clientSocket = server.serverAccept();
 
