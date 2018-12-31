@@ -169,6 +169,7 @@ vector<string> printLexer(string s) {
         size_t startIndex= s.find(print)+print.length();
         string msg = s.substr(startIndex);
         vector<string> vec = separateExpressions(msg);
+        cutSpaces(&msg);
         if(vec.size()!=1) {
             __throw_invalid_argument("Invalid arguments for print command");
         } else {
@@ -366,25 +367,26 @@ bool Interpreter::stringStartsWith(const string haystack, const string& needle){
 void Interpreter:: parser(vector<string> dataVec){
     int index = 0;
     Expression* commandExp;
+    SymbolTable* symbolTable = new SymbolTable();
     while(index <= dataVec.size()){
         //if the current string is a command
         if(dataVec[index] == "openDataServer"){
-            commandExp = new CommandExpression(new OpenServerCommand(), dataVec, index);
+            commandExp = new CommandExpression(new OpenServerCommand(symbolTable), dataVec, index);
         } else if(dataVec[index] == "connect"){
-            commandExp = new CommandExpression(new ConnectCommand(), dataVec, index);
+            commandExp = new CommandExpression(new ConnectCommand(symbolTable), dataVec, index);
         } else if(dataVec[index] == "var"){
-            commandExp = new CommandExpression(new DefineVarCommand(), dataVec, index);
+            commandExp = new CommandExpression(new DefineVarCommand(symbolTable), dataVec, index);
         } else if(dataVec[index] == "while" || dataVec[index] == "if"){
-            commandExp = new CommandExpression(new ConditionParser(), dataVec, index);
+            commandExp = new CommandExpression(new ConditionParser(symbolTable), dataVec, index);
         } else if(dataVec[index] == "print"){
-            commandExp = new CommandExpression(new PrintCommand(), dataVec, index);
+            commandExp = new CommandExpression(new PrintCommand(symbolTable), dataVec, index);
         } else if(dataVec[index] == "sleep"){
-            commandExp = new CommandExpression(new SleepCommand(), dataVec, index);
+            commandExp = new CommandExpression(new SleepCommand(symbolTable), dataVec, index);
             // in case the current string is not a command
         } else{
-            throw "unknown command";
+            commandExp = new CommandExpression(new DefineVarCommand(symbolTable), dataVec, index);
         }
-        index += (int)commandExp->calculate();
+        index += commandExp->calculate();
     }
 }
 

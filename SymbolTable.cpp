@@ -32,3 +32,7 @@ bool SymbolTable::isVarValueExist(string varKey){
     return this->m_varValues.count(varKey) > 0;
 }
 
+bool SymbolTable::isVarBindExist(string varKey){
+    return this->m_varBinds.count(varKey) > 0;
+}
+

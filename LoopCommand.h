@@ -6,6 +6,9 @@
 class LoopCommand : public ConditionParser{
 
 public:
+    LoopCommand(SymbolTable* symbolTable){
+        this->m_symbolTable = symbolTable;
+    }
     virtual int execute(vector<string> data, int index);
 };
 

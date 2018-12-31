@@ -1,17 +1,25 @@
 #include "DefineVarCommand.h"
+#include "ShuntingYard.h"
 
 int DefineVarCommand::execute(vector<string> data, int index){
     // if the var isn't initialized yet (the vector contains "var, varName, =, bind, path").
-    if(data[0] == "var"){
-        this->m_dataBase->insertVarBind(data[index + 1], data[index + 4]);
-        return index + 5;
+    if(data[index] == "var"){
+        if(data[index + 3] == "bind") {
+            this->m_symbolTable->insertVarBind(data[index + 1], data[index + 4]);
+            return 5;
+            // in case a new var is initialized to the value of another var
+            // (the vector contains "var, varName, =, varName2").
+        } else {
+            //todo
+        }
         /* in case the var is already initialized and we want to change its value
          (the vector contains "varName, =, value").*/
     } else{
-        if(this->m_dataBase->isVarValueExist(data[index])){
-            string::size_type sz;
-            this->m_dataBase->insertVarValue(data[index], stod(data[index + 2], &sz));
-            return index + 3;
+        if(this->m_symbolTable->isVarBindExist(data[index])){
+            ShuntingYard* shuntingYard = new ShuntingYard(this->m_symbolTable);
+            double value = shuntingYard->evaluate(data[index + 2])->calculate();
+            this->m_symbolTable->insertVarValue(data[index], value);
+            return  3;
         } else{
             throw "unknown command!";
             // todo - catch the exception

@@ -2,13 +2,13 @@
 #include <string.h>
 
 int LoopCommand::execute(vector<string> data, int index) {
-    while (conditionRetVal(data[index + 2])) {
+    while (conditionRetVal(this->m_operandStr)){
 
-        int LoopIndex = index + 5;
+        int LoopIndex = index + 3;
         doAllCommandsInScope(data, LoopIndex);
 
-        this->m_leftOperand = calculateOperand(data[index + 1]);
-        this->m_rightOperand = calculateOperand(data[index + 3]);
+        this->m_leftOperand = calculateOperand(this->m_leftOperandStr);
+        this->m_rightOperand = calculateOperand(this->m_rightOperandStr);
     }
 
     while ((strcmp(data[index].c_str(), "}")) != 0) {

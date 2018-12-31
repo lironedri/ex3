@@ -11,9 +11,9 @@ class CommandExpression : public Expression{
 
 public:
     CommandExpression(Command* command, vector<string> data, int index){
-        m_command = command;
-        m_data = data;
-        m_index = index;
+        this->m_command = command;
+        this->m_data = data;
+        this->m_index = index;
     }
 
     virtual double calculate();

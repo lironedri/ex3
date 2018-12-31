@@ -1,5 +1,5 @@
-#ifndef EX3_DATABASE_H
-#define EX3_DATABASE_H
+#ifndef EX3_SYMBOLTABLE_H
+#define EX3_SYMBOLTABLE_H
 
 #include <map>
 
@@ -18,7 +18,8 @@ public:
     string getVarBind(string varKey);
     double getVarValue(string varKey);
     bool isVarValueExist(string varKey);
+    bool isVarBindExist(string varKey);
 };
 
 
-#endif //EX3_DATABASE_H
+#endif //EX3_SYMBOLTABLE_H

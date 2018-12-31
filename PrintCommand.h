@@ -4,7 +4,12 @@
 #include "Command.h"
 
 class PrintCommand : public Command{
+    SymbolTable* m_symbolTable;
+
 public:
+    PrintCommand(SymbolTable* symbolTable){
+        this->m_symbolTable = symbolTable;
+    }
     virtual int execute(vector<string> data, int index);
 };
 

@@ -6,6 +6,9 @@
 class IfCommand : public ConditionParser{
 
 public:
+    IfCommand(SymbolTable* symbolTable){
+        this->m_symbolTable = symbolTable;
+    }
      virtual int execute(vector<string> data, int index);
 
 };
