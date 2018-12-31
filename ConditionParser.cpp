@@ -41,10 +41,10 @@ int ConditionParser::execute(vector<string> data, int index) {
         Command *command;
         //if its a while loop
         if (data[index] == "while") {
-            command = new LoopCommand(this->m_symbolTable);
+            command = new LoopCommand(this);
             //if its a if command
         } else {
-            command = new IfCommand(this->m_symbolTable);
+            command = new IfCommand(this);
         }
         //todo - check if there is not {
         return command->execute(data, index);

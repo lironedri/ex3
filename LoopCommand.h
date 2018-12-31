@@ -2,12 +2,14 @@
 #define EX3_LOOPCOMMAND_H
 
 #include "ConditionParser.h"
+#include "Command.h"
 
-class LoopCommand : public ConditionParser{
+class LoopCommand : public Command{
+    ConditionParser* m_conditionParser;
 
 public:
-    LoopCommand(SymbolTable* symbolTable){
-        this->m_symbolTable = symbolTable;
+    LoopCommand(ConditionParser* conditionParser){
+        this->m_conditionParser = conditionParser;
     }
     virtual int execute(vector<string> data, int index);
 };

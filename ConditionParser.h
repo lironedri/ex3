@@ -5,9 +5,9 @@
 #include "Expression.h"
 
 class ConditionParser : public Command {
-protected:
+public:
+    //todo getters setters to remove public
     SymbolTable* m_symbolTable;
-protected:
     map<string, Expression*> commandsMap;
     double m_leftOperand;
     double m_rightOperand;

@@ -3,7 +3,7 @@
 
 int IfCommand::execute(vector<string> data, int index){
     int ifIndex = index + 3;
-    doAllCommandsInScope(data, ifIndex);
+    this->m_conditionParser->doAllCommandsInScope(data, ifIndex);
 
     //check which index the scope ends
     while (data[ifIndex] != "}") {
