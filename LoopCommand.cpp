@@ -2,17 +2,18 @@
 #include <string.h>
 
 int LoopCommand::execute(vector<string> data, int index) {
+    int loopIndex;
     while (conditionRetVal(this->m_operandStr)){
 
-        int LoopIndex = index + 3;
-        doAllCommandsInScope(data, LoopIndex);
+        loopIndex = index + 3;
+        doAllCommandsInScope(data, loopIndex);
 
         this->m_leftOperand = calculateOperand(this->m_leftOperandStr);
         this->m_rightOperand = calculateOperand(this->m_rightOperandStr);
     }
 
-    while ((strcmp(data[index].c_str(), "}")) != 0) {
-        index++;
+    while (data[loopIndex] != "}") {
+        loopIndex++;
     }
-    return (index + 1);
+    return (loopIndex - index + 1);
 }

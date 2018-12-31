@@ -5,8 +5,9 @@ int IfCommand::execute(vector<string> data, int index){
     int ifIndex = index + 3;
     doAllCommandsInScope(data, ifIndex);
 
-    while ((strcmp(data[index].c_str(), "}")) != 0) {
-        index++;
+    //check which index the scope ends
+    while (data[ifIndex] != "}") {
+        ifIndex++;
     }
-    return (index + 1);
+    return (ifIndex - index + 1);
 }

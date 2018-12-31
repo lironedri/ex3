@@ -132,7 +132,7 @@ bool ConditionParser::conditionRetVal(string op) {
  * @param index
  */
 void ConditionParser::doAllCommandsInScope(vector<string> data, int index){
-    while ((strcmp(data[index].c_str(), "}")) != 0) {
+    while (data[index] != "}") {
         Command *command;
         //in case the current string is a command
         if (data[index] == "openDataServer") {

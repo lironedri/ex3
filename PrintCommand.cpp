@@ -10,5 +10,5 @@ int PrintCommand::execute(vector<string> data, int index){
     } else{
         cout << to_string((int)(this->m_symbolTable->getVarValue(data[index + 1]))) << endl;
     }
-    return index + 2;
+    return 2;
 }
