@@ -17,6 +17,7 @@ public:
     void clientWrite(char c);
     string clientRead(char delimiter);
     string clientRead(unsigned long length);
+    int getSocket();
     void clientClose();
 };
 

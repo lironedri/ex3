@@ -61,5 +61,9 @@ string Client::clientRead(unsigned long length) {
 }
 
 void Client::clientClose() {
-    shutdown(this->m_socket, 2);
+    close(this->m_socket);
+}
+
+int Client::getSocket() {
+    return this->m_socket;
 }

@@ -350,7 +350,7 @@ vector<string> Interpreter::lineLexer(string s){
  */
 bool Interpreter::stringEndsWith(const string &str, const string &toMatch){
     return (str.size() >= toMatch.size() &&
-        str.compare(str.size() - toMatch.size(), toMatch.size(), toMatch) == 0);
+            str.compare(str.size() - toMatch.size(), toMatch.size(), toMatch) == 0);
 
 }
 
@@ -368,7 +368,7 @@ void Interpreter:: parser(vector<string> dataVec){
     int index = 0;
     Expression* commandExp;
     SymbolTable* symbolTable = new SymbolTable();
-    while(index <= dataVec.size()){
+    while(index < dataVec.size()){
         //if the current string is a command
         if(dataVec[index] == "openDataServer"){
             commandExp = new CommandExpression(new OpenServerCommand(symbolTable), dataVec, index);
@@ -389,6 +389,5 @@ void Interpreter:: parser(vector<string> dataVec){
         index += commandExp->calculate();
     }
 }
-
 
 
