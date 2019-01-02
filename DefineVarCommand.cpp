@@ -10,6 +10,7 @@ int DefineVarCommand::execute(vector<string> data, int index) {
             return 5;
             // in case a new var is initialized to the value of another var
             // (the vector contains "var, varName, =, varName2").
+            //TODO - check if the else scope is right
         } else {
             this->m_symbolTable->insertVarValue(data[index + 1], this->m_symbolTable->getVarValue(data[index + 3]));
             return 4;

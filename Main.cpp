@@ -11,7 +11,7 @@ void StartServer();
 void StartClient();
 
 int main(int argc, const char *argv[]) {
- //   ShuntingYard* t =  new ShuntingYard(symbolTable);
+    //   ShuntingYard* t =  new ShuntingYard(symbolTable);
 
 //    cout << t->evaluate("10.3 + 2* 6")->calculate() << "\n";
 //    cout << t->evaluate("100 * 2 + 12") << "\n";
@@ -63,5 +63,4 @@ void StartServer() {
 //    socketWriteRead.socketWrite(m_clientSocket, '\0');
 //    server.serverClose();
 }
-
 

@@ -11,7 +11,7 @@ public:
     IfCommand(ConditionParser* conditionParser){
         this->m_conditionParser = conditionParser;
     }
-     virtual int execute(vector<string> data, int index);
+    virtual int execute(vector<string> data, int index);
 
 };
 

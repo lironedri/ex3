@@ -350,7 +350,7 @@ vector<string> Interpreter::lineLexer(string s){
  */
 bool Interpreter::stringEndsWith(const string &str, const string &toMatch){
     return (str.size() >= toMatch.size() &&
-        str.compare(str.size() - toMatch.size(), toMatch.size(), toMatch) == 0);
+            str.compare(str.size() - toMatch.size(), toMatch.size(), toMatch) == 0);
 
 }
 
@@ -389,6 +389,5 @@ void Interpreter:: parser(vector<string> dataVec){
         index += commandExp->calculate();
     }
 }
-
 
 
