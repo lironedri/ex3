@@ -44,16 +44,13 @@ string SocketWriteRead::socketRead(int socket, char delimiter) {
     char c;
     string result;
 
-    if (socket < 0) {
-        perror("ERROR bad socket");
-        exit(1);
-    }
-
     n = read(socket, &c, sizeof(c));
     while (c != delimiter) {
         if (n < 0) {
             perror("ERROR reading from socket");
             exit(1);
+        }   else if (n == 0)    {
+            exit(0);
         }
 
         result += c;

@@ -63,8 +63,8 @@ int Server::serverAccept() {
 
 void Server::serverClose() {
     for (auto &it: this->m_clientSocketsVector) {
-        shutdown(it, 2);
+        close(it);
     }
 
-    shutdown(this->m_socket, 2);
+    close(this->m_socket);
 }

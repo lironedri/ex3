@@ -1,102 +1,55 @@
-//#include "OpenServerCommand.h"
-//#include "Expression.h"
-//#include <stdio.h>
-//#include <stdlib.h>
-//#include <iostream>
-//#include <netdb.h>
-//#include <unistd.h>
-//#include <netinet/in.h>
-//#include <string.h>
-//#include <sys/socket.h>
-//
-//using namespace std;
-//
-///**
-// * the function gets a string - the command, and a string vector data - the script from Lexer - and while the next
-// * strings in the data vector is not any type of command - it
-// * @param s
-// * @param data
-// * @return
-// */
-//int OpenServerCommand::execute(vector<string> data, int index) {
-//    //todo - open thread and use the second argument
-//    int sockfd, newsockfd, portno, clilen;
-//    char buffer[256];
-//    struct sockaddr_in serv_addr, cli_addr;
-//    int  n;
-//
-//    /* First call to socket() function */
-//    cout << "creating a socket" << endl;
-//    sockfd = socket(AF_INET, SOCK_STREAM, 0);
-//
-//    if (sockfd < 0) {
-//        perror("ERROR opening socket");
-//        exit(1);
-//    }
-//
-//    /* Initialize socket structure */
-//    cout << "initialize a socket" << endl;
-//    bzero((char *) &serv_addr, sizeof(serv_addr));
-//    ShuntingYard* portExp = new ShuntingYard();
-//    Expression* port = portExp->evaluate(data[index + 1]);
-//    portno = (int)port->calculate();
-//
-//    serv_addr.sin_family = AF_INET;
-//    serv_addr.sin_addr.s_addr = INADDR_ANY;
-//    serv_addr.sin_port = htons(portno);
-//
-//    /* Now bind the host address using bind() call.*/
-//    cout << "bind a socket" << endl;
-//    if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-//        perror("ERROR on binding");
-//        exit(1);
-//    }
-//
-//    /* Now start listening for the clients, here process will
-//    * go in sleep mode and will wait for the incoming connection
-//    */
-//    cout << "listening a socket (waiting for clinet to connect)" << endl;
-//    listen(sockfd,5);
-//    clilen = sizeof(cli_addr);
-//
-//    /* Accept actual connection from the client */
-//    newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, (socklen_t*)&clilen);
-//
-//    if (newsockfd < 0) {
-//        perror("ERROR on accept");
-//        exit(1);
-//    }
-//
-//    /* If connection is established then start communicating */
-//    cout << "a clinet conncted to the socket" << endl;
-//    bzero(buffer,256);
-//    n = read( newsockfd,buffer,255 );
-//
-//    if (n < 0) {
-//        perror("ERROR reading from socket");
-//        exit(1);
-//    }
-//
-//    printf("Here is the message: %s\n",buffer);
-//
-//    /* Write a response to the client */
-//    n = write(newsockfd,"I got your message",18);
-//
-//    if (n < 0) {
-//        perror("ERROR writing to socket");
-//        exit(1);
-//    }
-//
-//    // returns the number of index to move
-//    return 3;
-//}
-
 #include <string>
 #include <vector>
+#include <unistd.h>
 #include "OpenServerCommand.h"
+#include "Server.h"
+#include "ShuntingYard.h"
+#include "SocketWriteRead.h"
 
 using namespace std;
 
-int OpenServerCommand::execute(vector <string> data, int index) {
+#define NEW_LINE '\n'
+#define SECOND_IN_MICRO 1000000
+#define DELIMITER ','
+
+void parseLine(string line, SymbolTable *symbolTable) {
+    size_t pos = 0;
+    std::string token;
+    int index = 0;
+    while ((pos = line.find(DELIMITER)) != std::string::npos) {
+        token = line.substr(0, pos);
+        symbolTable->insertPathValue(index++, stod(token));
+        line.erase(0, pos + 1);
+    }
+}
+
+static void ReadFromSimulator(int simulatorSocket, int hz, SymbolTable *symbolTable) {
+    SocketWriteRead socketWriteRead;
+    string line;
+    bool b = false;
+    while (true) {
+        if (b) break;
+        line = socketWriteRead.socketRead(simulatorSocket, (char) NEW_LINE);
+        cout << line << endl;
+        parseLine(line, symbolTable);
+    }
+}
+
+int OpenServerCommand::execute(vector<string> data, int index) {
+    int port = (int) ShuntingYard(this->m_symbolTable).evaluate(data[index + 1])->calculate();
+    int hz = (int) ShuntingYard(this->m_symbolTable).evaluate(data[index + 2])->calculate();
+    int clientSocket;
+    SocketWriteRead socketWriteRead;
+
+    Server server(port);
+    server.serverListen();
+    clientSocket = server.serverAccept();
+    // TODO
+    socketWriteRead.socketRead(clientSocket, (char) NEW_LINE);
+    cout << "connected" << endl;
+
+    thread t(ReadFromSimulator, clientSocket, hz, this->m_symbolTable);
+    t.detach();
+
     return 3;
 }

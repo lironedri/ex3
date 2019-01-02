@@ -368,7 +368,7 @@ void Interpreter:: parser(vector<string> dataVec){
     int index = 0;
     Expression* commandExp;
     SymbolTable* symbolTable = new SymbolTable();
-    while(index <= dataVec.size()){
+    while(index < dataVec.size()){
         //if the current string is a command
         if(dataVec[index] == "openDataServer"){
             commandExp = new CommandExpression(new OpenServerCommand(symbolTable), dataVec, index);

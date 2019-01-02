@@ -21,7 +21,7 @@ void Client::connectClient() {
 
     server = gethostbyname(this->m_ip.c_str());
 
-    if (server == NULL) {
+    if (server == nullptr) {
         fprintf(stderr, "ERROR, no such host\n");
         exit(0);
     }
@@ -61,5 +61,9 @@ string Client::clientRead(unsigned long length) {
 }
 
 void Client::clientClose() {
-    shutdown(this->m_socket, 2);
+    close(this->m_socket);
+}
+
+int Client::getSocket() {
+    return this->m_socket;
 }
